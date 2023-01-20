@@ -1,6 +1,6 @@
 module.exports = {
   HOST: 'localhost',
-  USER: 'root',
+  USER: 'doctortrotineta',
   PASSWORD: 'Mailsurf22!',
   DB: 'doctortrotineta_crm',
   dialect: 'mysql',
