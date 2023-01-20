@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const path = require('path');
+const history = require('connect-history-api-fallback');
 
 const app = express();
 
@@ -19,6 +20,9 @@ app.use(bodyParser.json());
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// history
+app.use(history());
 
 // path
 app.use(express.static(path.join(__dirname, 'public')));
