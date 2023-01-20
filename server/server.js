@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // path
-app.use('/public', express.static(path.join(__dirname, 'public/')));
+app.use(express.static(path.join(__dirname, 'public')));
 app.disable('x-powered-by');
 
 // database
@@ -72,7 +72,7 @@ function initial() {
 
 // simple route
 app.get('/', (req, res) => {
-  res.sendFile('index.html', { root: path.join(__dirname, 'public/dist/') });
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // app.get('*', (req, res) => {
