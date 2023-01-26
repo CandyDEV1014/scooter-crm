@@ -143,7 +143,7 @@ export default {
   computed: {
     signature() {
       if (this.item.signature) {
-        return process.env.VUE_APP_UPLOAD_BASEURL + this.form.signature;
+        return process.env.VUE_APP_UPLOAD_BASEURL + this.item.signature;
       }
       return null;
     },
