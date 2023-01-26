@@ -8,7 +8,7 @@ const { STATUSES } = require("./constants");
 const databaseUtility = require("./DatabaseUtility");
 
 module.exports.signIn = ({ email, password }) => {
-  const userData = databaseUtility.getUserByEmail(email);
+  const userData = databaseUtility.getProfile();
   if (!userData) {
     return {
       status: STATUSES.ERROR,

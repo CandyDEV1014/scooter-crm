@@ -36,7 +36,7 @@
                 small
                 color="success"
                 class="mr-2"
-                @click="onViewClick(item)"
+                @click="onViewClick(item.id)"
                 v-bind="attrs"
                 v-on="on"
               >
@@ -51,7 +51,7 @@
                 small
                 color="primary"
                 class="mr-2"
-                @click="onEditClick(item)"
+                @click="onEditClick(item.id)"
                 v-bind="attrs"
                 v-on="on"
               >
@@ -76,32 +76,15 @@
         </v-btn>
       </template>
     </v-snackbar>
-    <view-dialog
-      v-model="viewDialog"
-      :selected-item="selectedViewItem"
-      @close="viewDialog = false"
-    />
-    <edit-dialog
-      v-model="editDialog"
-      :selected-item="selectedEditItem"
-      @close="editDialog = false"
-      @submit="updateScooter"
-    />
   </v-card>
 </template>
 
 <script>
-import ViewDialog from "../scooter/ViewDialog.vue";
-import EditDialog from "../scooter/EditDialog.vue";
-
 import dayjs from "dayjs";
 
 export default {
   name: "WorkList",
-  components: {
-    ViewDialog,
-    EditDialog,
-  },
+  components: {},
   data() {
     return {
       options: {},
@@ -121,12 +104,6 @@ export default {
         enabled: false,
         message: "",
       },
-
-      viewDialog: false,
-      editDialog: false,
-
-      selectedViewItem: {},
-      selectedEditItem: {},
     };
   },
   created() {
@@ -159,29 +136,15 @@ export default {
         })
         .catch((error) => {});
     },
-    onViewClick(item) {
-      this.selectedViewItem = item;
-      this.viewDialog = true;
+    onViewClick(id) {
+      this.$router.push({
+        path: `/admin/scooter/view/${id}`,
+      });
     },
-    onEditClick(item) {
-      this.selectedEditItem = item;
-      this.editDialog = true;
-    },
-    updateScooter(form) {
-      this.$http
-        .put("scooter", form)
-        .then((response) => {
-          if (response.status === 200) {
-            this.editDialog = false;
-            this.getScooterList();
-            this.snackBar.enabled = true;
-            this.snackBar.message = "Successfully update Scooter";
-          }
-        })
-        .catch((error) => {
-          this.snackBar.enabled = true;
-          this.snackBar.message = "Cannot update Scooter";
-        });
+    onEditClick(id) {
+      this.$router.push({
+        path: `/admin/scooter/edit/${id}`,
+      });
     },
   },
 };

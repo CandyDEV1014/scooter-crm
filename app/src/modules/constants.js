@@ -7,6 +7,7 @@ export const IPC_HANDLERS = {
 export const IPC_FUNCTIONS = {
   SIGN_IN: "signIn",
   INITIAL: "initial",
+  GET_PROFILE: "getProfile",
   GET_SCOOTER_LIST: "getScooterList",
   ADD_SCOOTER: "addScooter",
   UPDATE_SCOOTER: "updateScooter",

@@ -15,12 +15,7 @@
             <v-toolbar flat>
               <v-toolbar-title>Scooter List</v-toolbar-title>
               <v-spacer></v-spacer>
-              <v-btn
-                color="primary"
-                dark
-                class="mb-2 mr-2"
-                @click="onAddClick()"
-              >
+              <v-btn color="primary" dark class="mb-2 mr-2" @click="onAddClick">
                 Create
               </v-btn>
               <!-- <v-btn color="primary" dark class="mb-2">Import</v-btn> -->
@@ -60,7 +55,7 @@
                   small
                   color="success"
                   class="mr-2"
-                  @click="onViewClick(item)"
+                  @click="onViewClick(item.id)"
                   v-bind="attrs"
                   v-on="on"
                 >
@@ -112,22 +107,6 @@
     >
       {{ snackBar.message }}
     </v-snackbar>
-    <add-dialog
-      v-model="addDialog"
-      @close="addDialog = false"
-      @submit="addScooter"
-    />
-    <view-dialog
-      v-model="viewDialog"
-      :selected-item="selectedViewItem"
-      @close="viewDialog = false"
-    />
-    <edit-dialog
-      v-model="editDialog"
-      :selected-item="selectedEditItem"
-      @close="editDialog = false"
-      @submit="updateScooter"
-    />
     <delete-dialog
       v-model="deleteDialog"
       @cancel="deleteDialog = false"
@@ -137,9 +116,6 @@
 </template>
 
 <script>
-import AddDialog from "./AddDialog.vue";
-import ViewDialog from "./ViewDialog.vue";
-import EditDialog from "./EditDialog.vue";
 import DeleteDialog from "./DeleteDialog.vue";
 
 import dayjs from "dayjs";
@@ -148,9 +124,6 @@ import get from "get-value";
 export default {
   name: "ScooterList",
   components: {
-    AddDialog,
-    ViewDialog,
-    EditDialog,
     DeleteDialog,
   },
   data() {
@@ -179,13 +152,8 @@ export default {
         message: "",
       },
 
-      addDialog: false,
-      viewDialog: false,
-      editDialog: false,
       deleteDialog: false,
 
-      selectedViewItem: {},
-      selectedEditItem: {},
       selectedDeleteItem: {},
     };
   },
@@ -216,7 +184,6 @@ export default {
         })
         .then((response) => {
           if (response.data) {
-            console.log(response.data);
             this.items = response.data.result;
             this.totalRecords = response.data.count;
           }
@@ -253,105 +220,23 @@ export default {
       }
     },
     onAddClick() {
-      this.addDialog = true;
+      this.$router.push({
+        path: `/admin/scooter/add`,
+      });
     },
-    onViewClick(item) {
-      this.selectedViewItem = item;
-      this.viewDialog = true;
+    onViewClick(id) {
+      this.$router.push({
+        path: `/admin/scooter/view/${id}`,
+      });
     },
     onEditClick(id) {
-      this.$http
-        .get("scooter/" + id)
-        .then((response) => {
-          if (response.status === 200) {
-            this.selectedEditItem = response.data.result;
-            this.editDialog = true;
-          }
-        })
-        .catch((error) => {
-          this.snackBar.type = "error";
-          this.snackBar.enabled = true;
-          this.snackBar.message = "Cannot get user";
-        });
+      this.$router.push({
+        path: `/admin/scooter/edit/${id}`,
+      });
     },
     onDeleteClick(item) {
       this.selectedDeleteItem = item;
       this.deleteDialog = true;
-    },
-    addScooter(form) {
-      this.$http
-        .post("scooter", form)
-        .then((response) => {
-          if (response.status === 200) {
-            this.addDialog = false;
-            this.getScooterList();
-            this.snackBar.type = "success";
-            this.snackBar.enabled = true;
-            this.snackBar.message = "Successfully create Scooter";
-          } else {
-            this.snackBar.type = "error";
-            this.snackBar.enabled = true;
-            this.snackBar.message = "Cannot create Scooter";
-          }
-        })
-        .catch((error) => {
-          this.snackBar.type = "error";
-          this.snackBar.enabled = true;
-          this.snackBar.message = "Cannot create Scooter";
-        });
-    },
-    updateScooter({ form, images }) {
-      if (images.length) {
-        images.map((image) => {
-          const formData = new FormData();
-          formData.append("file", image.file);
-          this.$http
-            .post("scooter/uploadSignature", formData, {
-              headers: { "X-Requested-With": "XMLHttpRequest" },
-            })
-            .then((response) => {
-              if (response.status === 200) {
-                form.signature = response.data.filename;
-                this.$http
-                  .put("scooter", form)
-                  .then((response) => {
-                    if (response.status === 200) {
-                      this.editDialog = false;
-                      this.getScooterList();
-                      this.snackBar.type = "success";
-                      this.snackBar.enabled = true;
-                      this.snackBar.message = "Successfully update Scooter";
-                    }
-                  })
-                  .catch((error) => {
-                    this.snackBar.type = "error";
-                    this.snackBar.enabled = true;
-                    this.snackBar.message = "Cannot update Scooter";
-                  });
-              }
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-        });
-      } else {
-        this.$http
-          .put("scooter", form)
-          .then((response) => {
-            if (response.status === 200) {
-              this.editDialog = false;
-              this.getScooterList();
-              this.snackBar.type = "success";
-              this.snackBar.enabled = true;
-              this.snackBar.message = "Successfully update Scooter";
-            }
-          })
-          .catch((error) => {
-            this.snackBar.type = "error";
-            this.snackBar.enabled = true;
-            this.snackBar.message = "Cannot update Scooter";
-          });
-      }
     },
     deleteScooter() {
       this.$http

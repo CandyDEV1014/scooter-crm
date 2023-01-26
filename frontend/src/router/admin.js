@@ -43,6 +43,30 @@ export default {
       },
     },
     {
+      path: "/admin/scooter/add",
+      name: "add_scooter",
+      component: () => import("@/views/scooter/Add"),
+      meta: {
+        title: "Add Scooter",
+      },
+    },
+    {
+      path: "/admin/scooter/edit/:id",
+      name: "edit_scooter",
+      component: () => import("@/views/scooter/Edit"),
+      meta: {
+        title: "Edit Scooter",
+      },
+    },
+    {
+      path: "/admin/scooter/view/:id",
+      name: "view_scooter",
+      component: () => import("@/views/scooter/View"),
+      meta: {
+        title: "View Scooter",
+      },
+    },
+    {
       path: "/admin/user",
       name: "user",
       component: () => import("@/views/users/List"),

@@ -62,14 +62,6 @@ const migration = () => {
           db.set("untracked", temp);
         }
       });
-      connection.query("SELECT * FROM users", (err, rows) => {
-        if (err) {
-          console.log("An error ocurred performing the query.");
-          console.log(err);
-        }
-
-        db.set("users", rows);
-      });
 
       connection.query("SELECT * FROM scooters", (err, rows) => {
         if (err) {
@@ -87,18 +79,21 @@ const migration = () => {
 };
 
 module.exports.initial = () => {
-  // axios
-  //   .get("http://localhost:8081/api/scooter/3")
-  //   .then((response) => {
-  //     console.log(response);
-  //   })
-  //   .catch((error) => {
-  //     console.log(error);
-  //   });
   db = new JSONdb(path.join(configDir, "data.json"), jsonDbConfig);
+
+  if (!db.has("profile")) {
+    db.set("profile", {
+      name: "Super Admin",
+      email: "superadmin@gmail.com",
+      password: bcrypt.hashSync("superadmin", 8),
+      roleId: 1,
+    });
+  }
+
   if (!db.has("untracked")) {
     db.set("untracked", []);
   }
+
   let connection = mysql.createConnection({
     host: config.HOST,
     user: config.USER,
@@ -108,17 +103,6 @@ module.exports.initial = () => {
   // connect to mysql
   connection.connect(async (err) => {
     if (err) {
-      if (!db.has("users")) {
-        db.set("users", [
-          {
-            id: 1,
-            name: "Super Admin",
-            email: "superadmin@gmail.com",
-            password: bcrypt.hashSync("superadmin", 8),
-            roleId: 1,
-          },
-        ]);
-      }
       if (!db.has("scooters")) {
         db.set("scooters", []);
       }
@@ -130,10 +114,15 @@ module.exports.initial = () => {
   });
 };
 
-module.exports.getUserByEmail = (email) => {
-  const users = db.get("users");
-  const user = users.find((item) => item.email === email);
-  return user ? user : null;
+// module.exports.getUserByEmail = (email) => {
+//   const users = db.get("users");
+//   const user = users.find((item) => item.email === email);
+//   return user ? user : null;
+// };
+
+module.exports.getProfile = () => {
+  const profile = db.get("profile");
+  return profile;
 };
 
 module.exports.getScooterList = (statusId = 0) => {

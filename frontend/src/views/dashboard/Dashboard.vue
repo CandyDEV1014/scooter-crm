@@ -1,18 +1,22 @@
 <template>
-  <v-row>
-    <v-col xs="12" sm="12" md="6">
-      <work-list />
-    </v-col>
-    <v-col xs="12" sm="12" md="6">
-      <completed-list />
-    </v-col>
-  </v-row>
+  <div class="wrapper">
+    <v-btn color="primary" dark class="mb-2 mr-2" to="/admin/scooter/add">
+      Add Scooter
+    </v-btn>
+    <v-row>
+      <v-col xs="12" sm="12" md="6">
+        <work-list />
+      </v-col>
+      <v-col xs="12" sm="12" md="6">
+        <completed-list />
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
 <script>
 import WorkList from "./WorkList.vue";
 import CompletedList from "./CompletedList.vue";
-import moment from "moment";
 
 export default {
   name: "Dashboard",

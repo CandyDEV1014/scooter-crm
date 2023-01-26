@@ -2,6 +2,8 @@ module.exports = {
   HOST: 'localhost',
   USER: 'doctortrotineta',
   PASSWORD: 'Mailsurf22!',
+  // USER: 'root',
+  // PASSWORD: '',
   DB: 'doctortrotineta_crm',
   dialect: 'mysql',
   pool: {

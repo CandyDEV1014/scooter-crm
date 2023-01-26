@@ -17,6 +17,8 @@ ipcMain.handle(IPC_HANDLERS.DATABASE, async (event, args) => {
   switch (args.func) {
     case IPC_FUNCTIONS.INITIAL:
       return databaseUtility.initial(args.data);
+    case IPC_FUNCTIONS.GET_PROFILE:
+      return databaseUtility.getProfile(args.data);
     case IPC_FUNCTIONS.GET_SCOOTER_LIST:
       return databaseUtility.getScooterList(args.data);
     case IPC_FUNCTIONS.ADD_SCOOTER:
