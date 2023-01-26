@@ -26,6 +26,7 @@ app.use(history());
 
 // path
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/uploads', express.static('uploads'));
 app.disable('x-powered-by');
 
 // database

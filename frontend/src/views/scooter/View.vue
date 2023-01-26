@@ -59,7 +59,7 @@
                     <td class="item-value">
                       <div v-if="item.signature">
                         <v-img
-                          :src="require(`/public/uploads/${item.signature}`)"
+                          :src="signature"
                           alt="signature"
                           max-height="150"
                           max-width="120"
@@ -139,6 +139,14 @@ export default {
   created() {},
   mounted() {
     this.getItem();
+  },
+  computed: {
+    signature() {
+      if (this.item.signature) {
+        return process.env.VUE_APP_UPLOAD_BASEURL + this.form.signature;
+      }
+      return null;
+    },
   },
   methods: {
     getItem() {

@@ -115,7 +115,7 @@
                           <v-icon>mdi-close</v-icon>
                         </v-btn>
                         <v-img
-                          :src="require(`/public/uploads/${form.signature}`)"
+                          :src="signature"
                           alt="signature"
                           max-height="150"
                           max-width="120"
@@ -224,6 +224,14 @@ export default {
   mounted() {
     this.getItem();
   },
+  computed: {
+    signature() {
+      if (this.form.signature) {
+        return process.env.VUE_APP_UPLOAD_BASEURL + this.form.signature;
+      }
+      return null;
+    },
+  },
   methods: {
     getItem() {
       this.$http
@@ -241,6 +249,9 @@ export default {
     },
     handlePrint() {
       this.$refs.html2Pdf.generatePdf();
+    },
+    removeSignature() {
+      this.form.signature = "";
     },
     updateScooter() {
       this.update = () => {
@@ -288,3 +299,31 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.dialog-title {
+  font-size: 18px !important;
+  font-weight: 500;
+  line-height: 24px;
+}
+.dialog_actions {
+  padding: 10px 16px;
+}
+.signature-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.signature-img {
+  position: relative;
+  padding: 10px;
+  padding-left: 0;
+}
+.close-btn {
+  position: absolute;
+  overflow: hidden;
+  z-index: 9999999;
+  right: 0;
+  top: 0;
+}
+</style>
