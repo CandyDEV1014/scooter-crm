@@ -26,6 +26,5 @@ new Vue({
   store,
   i18n,
   vuetify,
-  // admin,
   render: (h) => h(App),
 }).$mount("#app");

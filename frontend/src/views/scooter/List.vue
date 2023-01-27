@@ -15,8 +15,8 @@
             <v-toolbar flat>
               <v-toolbar-title>Scooter List</v-toolbar-title>
               <v-spacer></v-spacer>
-              <v-btn color="primary" dark class="mb-2 mr-2" @click="onAddClick">
-                Create
+              <v-btn color="primary" dark class="mb-2" @click="onAddClick">
+                Add Scooter
               </v-btn>
               <!-- <v-btn color="primary" dark class="mb-2">Import</v-btn> -->
             </v-toolbar>
@@ -79,7 +79,7 @@
               </template>
               <span>Edit</span>
             </v-tooltip>
-            <v-tooltip bottom>
+            <v-tooltip bottom v-if="$store.getters.getRoleId === 1">
               <template v-slot:activator="{ on, attrs }">
                 <v-icon
                   small

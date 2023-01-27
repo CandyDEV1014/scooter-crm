@@ -75,7 +75,6 @@
                       label="Price"
                       v-model="form.price"
                       :rules="rules.price"
-                      required
                     ></v-text-field>
                   </v-col>
                 </v-row>
@@ -127,10 +126,7 @@ export default {
         model: [(v) => !!v || "Model is required"],
         termen: [(v) => !!v || "TERMEN APROXIMATIV is required"],
         problem: [(v) => !!v || "Problem is required"],
-        price: [
-          (v) => !!v || "Price is required",
-          (v) => Number.isInteger(Number(v)) || "Price must be a number",
-        ],
+        price: [(v) => Number.isInteger(Number(v)) || "Price must be a number"],
       },
       valid: true,
 

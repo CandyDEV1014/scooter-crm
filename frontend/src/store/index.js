@@ -23,9 +23,8 @@ export default new Vuex.Store({
     getEmail: (state) => {
       return getValue(state.auth, "user.email");
     },
-    getUserRole: (state) => {
-      console.log(state);
-      return getValue(state.auth, "user.role");
+    getRoleId: (state) => {
+      return getValue(state.auth, "user.roleId");
     },
     getTokenId: (state) => {
       return getValue(state.auth, "token");
@@ -48,7 +47,7 @@ export default new Vuex.Store({
         user: {
           name: null,
           email: null,
-          role: { role: null },
+          roleId: null,
         },
         token: null,
       };

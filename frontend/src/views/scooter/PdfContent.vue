@@ -64,7 +64,7 @@
             margin-top: 5px;
           "
         >
-          <p style="padding: 10px; text-align: left">
+          <p style="padding: 10px; text-align: left; white-space: pre-line">
             {{ item.problem }}
           </p>
         </div>

@@ -18,13 +18,16 @@ module.exports = (sequelize, Sequelize) => {
     problem: {
       type: Sequelize.STRING
     },
-    content: {
+    notes: {
       type: Sequelize.STRING
     },
     price: {
       type: Sequelize.STRING
     },
     signature: {
+      type: Sequelize.STRING
+    },
+    doneBy: {
       type: Sequelize.STRING
     },
     statusId: {

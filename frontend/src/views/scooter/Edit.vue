@@ -72,9 +72,9 @@
                   <v-col cols="12">
                     <v-textarea
                       color="primary"
-                      label="Content"
+                      label="Notes"
                       :rows="3"
-                      v-model="form.content"
+                      v-model="form.notes"
                     >
                     </v-textarea>
                   </v-col>
@@ -99,6 +99,14 @@
                       :rules="rules.status"
                       required
                     ></v-select>
+                  </v-col>
+                  <v-col cols="12" v-if="form.statusId > 1">
+                    <v-text-field
+                      color="primary"
+                      label="Done By"
+                      v-model="form.doneBy"
+                      disabled
+                    ></v-text-field>
                   </v-col>
                   <v-col cols="12">
                     <div class="signature-wrapper" v-if="form.signature">
@@ -199,10 +207,7 @@ export default {
         model: [(v) => !!v || "Model is required"],
         termen: [(v) => !!v || "TERMEN APROXIMATIV is required"],
         problem: [(v) => !!v || "Problem is required"],
-        price: [
-          (v) => !!v || "Price is required",
-          (v) => Number.isInteger(Number(v)) || "Price must be a number",
-        ],
+        price: [(v) => Number.isInteger(Number(v)) || "Price must be a number"],
         status: [(v) => !!v || "Status is required"],
         imageRules: [(v) => v.length > 0 || "This image is required"],
       },
@@ -255,6 +260,10 @@ export default {
     },
     updateScooter() {
       this.update = () => {
+        if (this.form.statusId > 1) {
+          this.form.doneBy = this.$store.getters.getName;
+        }
+        console.log(this.form);
         this.$http
           .put("scooter", this.form)
           .then((response) => {

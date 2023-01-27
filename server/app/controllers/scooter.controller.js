@@ -136,8 +136,10 @@ exports.updateScooter = (req, res) => {
     model: req.body.model,
     termen: req.body.termen,
     problem: req.body.problem,
+    notes: req.body.notes,
     price: req.body.price,
     signature: req.body.signature,
+    doneBy: req.body.doneBy,
     statusId: req.body.statusId,
   };
   Scooter.update(updateValues, { where: { id: req.body.id } }).then((data) => {

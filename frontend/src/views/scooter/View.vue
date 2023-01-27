@@ -54,6 +54,10 @@
                       </v-chip>
                     </td>
                   </tr>
+                  <tr v-if="item.statusId > 1">
+                    <td class="item-title">Done By</td>
+                    <td class="item-value">{{ item.doneBy }}</td>
+                  </tr>
                   <tr>
                     <td class="item-title">Signature</td>
                     <td class="item-value">
